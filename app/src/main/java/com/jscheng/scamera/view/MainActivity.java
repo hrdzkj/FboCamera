@@ -11,6 +11,7 @@ import com.jscheng.scamera.R;
 
 /**
  * Created By Chengjunsen on 2018/8/22
+ * https://blog.csdn.net/qq_15893929/article/details/82864976
  */
 public class MainActivity extends BaseActivity {
     private CameraFragment mCameraFragment;
