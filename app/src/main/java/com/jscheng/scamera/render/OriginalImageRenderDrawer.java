@@ -1,3 +1,4 @@
+/*
 package com.jscheng.scamera.render;
 
 import android.content.Context;
@@ -7,10 +8,7 @@ import com.jscheng.scamera.R;
 import com.jscheng.scamera.util.GlesUtil;
 import com.jscheng.scamera.render.BaseRenderDrawer;
 
-/**
-  *  输出纹理是GL_TEXTURE_2D的纹理；输入纹理外部传入
- *
- */
+
 public class OriginalImageRenderDrawer extends BaseRenderDrawer {
     private int mInputTextureId;
     private int mOutputTextureId;
@@ -104,3 +102,4 @@ public class OriginalImageRenderDrawer extends BaseRenderDrawer {
         return source;
     }
 }
+*/
