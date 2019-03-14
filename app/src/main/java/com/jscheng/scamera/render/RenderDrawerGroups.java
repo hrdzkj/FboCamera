@@ -11,7 +11,7 @@ import static com.jscheng.scamera.util.LogUtil.TAG;
 
 /**
  * Created By Chengjunsen on 2018/8/31
- * 统一管理所有的RenderDrawer 和 FBO
+ *   统一管理所有的RenderDrawer 和 FBO
  */
 public class RenderDrawerGroups {
     private int mInputTexture;
@@ -84,10 +84,12 @@ public class RenderDrawerGroups {
             Log.e(TAG, "draw: mInputTexture or mFramebuffer or list is zero");
             return;
         }
-        drawRender(mOriginalDrawer, true, timestamp, transformMatrix);
+         //mOriginalDrawer/mWaterMarkDrawer 将绑定到FBO中，最后转换成mOriginalDrawer中的Sample2D纹理
+         //mDisplayDrawer/mRecordDrawer 不绑定FBO，直接绘制到屏幕上
         // 绘制顺序会控制着 水印绘制哪一层
-        //drawRender(mWaterMarkDrawer, true, timestamp, transformMatrix);
+        drawRender(mOriginalDrawer, true, timestamp, transformMatrix);     
         drawRender(mDisplayDrawer, false,  timestamp, transformMatrix);
+        
         drawRender(mWaterMarkDrawer, true, timestamp, transformMatrix);
         drawRender(mRecordDrawer, false, timestamp, transformMatrix);
     }

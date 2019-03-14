@@ -6,6 +6,7 @@ import com.jscheng.scamera.render.BaseRenderDrawer;
 
 /**
  * Created By Chengjunsen on 2018/8/27
+  *  输入纹理和输出纹理相同，由外部传入
  */
 public class DisplayRenderDrawer extends BaseRenderDrawer {
     private int av_Position;

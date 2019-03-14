@@ -7,6 +7,10 @@ import com.jscheng.scamera.R;
 import com.jscheng.scamera.util.GlesUtil;
 import com.jscheng.scamera.render.BaseRenderDrawer;
 
+/**
+  *  输出纹理是GL_TEXTURE_2D的纹理；输入纹理外部传入
+ *
+ */
 public class OriginalImageRenderDrawer extends BaseRenderDrawer {
     private int mInputTextureId;
     private int mOutputTextureId;
@@ -51,11 +55,6 @@ public class OriginalImageRenderDrawer extends BaseRenderDrawer {
 
         GLES30.glEnableVertexAttribArray(avPosition);
         GLES30.glEnableVertexAttribArray(afPosition);
-        //设置顶点位置值
-        //GLES30.glVertexAttribPointer(avPosition, CoordsPerVertexCount, GLES30.GL_FLOAT, false, VertexStride, mVertexBuffer);
-        //设置纹理位置值
-        //GLES30.glVertexAttribPointer(afPosition, CoordsPerTextureCount, GLES30.GL_FLOAT, false, TextureStride, mDisplayTextureBuffer);
-
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mVertexBufferId);
         GLES30.glVertexAttribPointer(avPosition, CoordsPerVertexCount, GLES30.GL_FLOAT, false, 0, 0);
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mDisplayTextureBufferId);

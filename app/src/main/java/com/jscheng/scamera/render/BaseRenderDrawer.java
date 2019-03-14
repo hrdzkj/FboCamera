@@ -10,6 +10,11 @@ import java.nio.FloatBuffer;
 
 /**
  * Created By Chengjunsen on 2018/8/27
+ * 功能：
+ * 1.提供顶点着色器、片段着色器 的接口，具体子类实现。
+ * 2.设置InputTextureId接口，具体子类实现
+ * 3.获取outputTextureId，具体子类实现，需要输出到FBO时候用到。
+ * 4.draw流程
  */
 public abstract class BaseRenderDrawer {
     protected int width;
@@ -139,6 +144,7 @@ public abstract class BaseRenderDrawer {
                 .put(frontTextureData);
         mFrontTextureBuffer.position(0);
         mFrontTextureBufferId = vbo[2];
+         // glBindBuffer 激活缓冲
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mFrontTextureBufferId);
         GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, frontTextureData.length * 4, mFrontTextureBuffer, GLES30.GL_STATIC_DRAW);
 

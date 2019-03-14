@@ -10,6 +10,7 @@ import com.jscheng.scamera.util.GlesUtil;
 
 /**
  * Created By Chengjunsen on 2018/8/27
+  *  输出纹理是GL_TEXTURE_2D的纹理；输入纹理外部传入
  */
 public class OriginalRenderDrawer extends BaseRenderDrawer {
     private int av_Position;

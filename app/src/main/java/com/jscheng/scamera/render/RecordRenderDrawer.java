@@ -24,6 +24,7 @@ import static com.jscheng.scamera.util.LogUtil.TAG;
 
 /**
  * Created By Chengjunsen on 2018/9/21
+  *   输出纹理/输入纹理同一个，外部传入的。
  */
 public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
     // 绘制的纹理 ID
