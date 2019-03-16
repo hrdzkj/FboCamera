@@ -47,6 +47,7 @@ public class DisplayRenderDrawer extends BaseRenderDrawer {
         GLES20.glDisableVertexAttribArray(av_Position);
     }
 
+    /*
     private void bind2DTexture(int textureId, int textureType) {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + textureType);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
@@ -56,6 +57,7 @@ public class DisplayRenderDrawer extends BaseRenderDrawer {
     private void unBind2DTexure() {
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
     }
+*/
 
     @Override
     public void setInputTextureId(int textureId) {
