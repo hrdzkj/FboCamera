@@ -3,10 +3,9 @@ package com.jscheng.scamera.render;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.opengl.GLES30;
+import android.opengl.GLES20;
 
 import com.jscheng.scamera.R;
-import com.jscheng.scamera.render.BaseRenderDrawer;
 import com.jscheng.scamera.util.GlesUtil;
 
 /**
@@ -41,9 +40,9 @@ public class WaterMarkRenderDrawer extends BaseRenderDrawer{
     @Override
     protected void onChanged(int width, int height) {
         mMarkTextureId = GlesUtil.loadBitmapTexture(mBitmap);
-        avPosition = GLES30.glGetAttribLocation(mProgram, "av_Position");
-        afPosition = GLES30.glGetAttribLocation(mProgram, "af_Position");
-        sTexture = GLES30.glGetUniformLocation(mProgram, "sTexture");
+        avPosition = GLES20.glGetAttribLocation(mProgram, "av_Position");
+        afPosition = GLES20.glGetAttribLocation(mProgram, "af_Position");
+        sTexture = GLES20.glGetUniformLocation(mProgram, "sTexture");
     }
 
     @Override
@@ -51,33 +50,33 @@ public class WaterMarkRenderDrawer extends BaseRenderDrawer{
         useProgram();
         //clear();
         viewPort(40, 75, mBitmap.getWidth() * 2, mBitmap.getHeight() * 2);
-        GLES30.glDisable(GLES30.GL_DEPTH_TEST);
-        GLES30.glEnable(GLES30.GL_BLEND);
-        GLES30.glBlendFunc(GLES30.GL_SRC_COLOR, GLES30.GL_DST_ALPHA);
+        GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_SRC_COLOR, GLES20.GL_DST_ALPHA);
         onDraw();
-        GLES30.glDisable(GLES30.GL_BLEND);
+        GLES20.glDisable(GLES20.GL_BLEND);
     }
 
     @Override
     protected void onDraw() {
-        GLES30.glEnableVertexAttribArray(avPosition);
-        GLES30.glEnableVertexAttribArray(afPosition);
+        GLES20.glEnableVertexAttribArray(avPosition);
+        GLES20.glEnableVertexAttribArray(afPosition);
         //设置顶点位置值
-        //GLES30.glVertexAttribPointer(avPosition, CoordsPerVertexCount, GLES30.GL_FLOAT, false, VertexStride, mVertexBuffer);
+        //GLES20.glVertexAttribPointer(avPosition, CoordsPerVertexCount, GLES20.GL_FLOAT, false, VertexStride, mVertexBuffer);
         //设置纹理位置值
-        //GLES30.glVertexAttribPointer(afPosition, CoordsPerTextureCount, GLES30.GL_FLOAT, false, TextureStride, mFrameTextureBuffer);
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mVertexBufferId);
-        GLES30.glVertexAttribPointer(avPosition, CoordsPerVertexCount, GLES30.GL_FLOAT, false, 0, 0);
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mFrameTextureBufferId);
-        GLES30.glVertexAttribPointer(afPosition, CoordsPerTextureCount, GLES30.GL_FLOAT, false, 0, 0);
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, 0);
-        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mMarkTextureId);
-        GLES30.glUniform1i(sTexture, 0);
-        //绘制 GLES30.GL_TRIANGLE_STRIP:复用坐标
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_STRIP, 0, VertexCount);
-        GLES30.glDisableVertexAttribArray(avPosition);
-        GLES30.glDisableVertexAttribArray(afPosition);
+        //GLES20.glVertexAttribPointer(afPosition, CoordsPerTextureCount, GLES20.GL_FLOAT, false, TextureStride, mFrameTextureBuffer);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVertexBufferId);
+        GLES20.glVertexAttribPointer(avPosition, CoordsPerVertexCount, GLES20.GL_FLOAT, false, 0, 0);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mFrameTextureBufferId);
+        GLES20.glVertexAttribPointer(afPosition, CoordsPerTextureCount, GLES20.GL_FLOAT, false, 0, 0);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mMarkTextureId);
+        GLES20.glUniform1i(sTexture, 0);
+        //绘制 GLES20.GL_TRIANGLE_STRIP:复用坐标
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, VertexCount);
+        GLES20.glDisableVertexAttribArray(avPosition);
+        GLES20.glDisableVertexAttribArray(afPosition);
     }
 
     @Override

@@ -1,22 +1,20 @@
 package com.jscheng.scamera.render;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.EGL14;
 import android.opengl.EGLContext;
 import android.opengl.EGLSurface;
-import android.opengl.GLES30;
+import android.opengl.GLES20;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import com.jscheng.scamera.R;
 import com.jscheng.scamera.record.VideoEncoder;
 import com.jscheng.scamera.util.EGLHelper;
 import com.jscheng.scamera.util.GlesUtil;
 import com.jscheng.scamera.util.StorageUtil;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -205,13 +203,13 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
     protected void onCreated() {
         mProgram = GlesUtil.createProgram(getVertexSource(), getFragmentSource());
         initVertexBufferObjects();
-        av_Position = GLES30.glGetAttribLocation(mProgram, "av_Position");
-        af_Position = GLES30.glGetAttribLocation(mProgram, "af_Position");
-        s_Texture = GLES30.glGetUniformLocation(mProgram, "s_Texture");
+        av_Position = GLES20.glGetAttribLocation(mProgram, "av_Position");
+        af_Position = GLES20.glGetAttribLocation(mProgram, "af_Position");
+        s_Texture = GLES20.glGetUniformLocation(mProgram, "s_Texture");
         Log.d(TAG, "onCreated: av_Position " + av_Position);
         Log.d(TAG, "onCreated: af_Position " + af_Position);
         Log.d(TAG, "onCreated: s_Texture " + s_Texture);
-        Log.e(TAG, "onCreated: error " + GLES30.glGetError());
+        Log.e(TAG, "onCreated: error " + GLES20.glGetError());
     }
 
     @Override
@@ -225,23 +223,23 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
         useProgram();
         viewPort(0, 0, width, height);
 
-        GLES30.glEnableVertexAttribArray(av_Position);
-        GLES30.glEnableVertexAttribArray(af_Position);
-//        GLES30.glVertexAttribPointer(av_Position, CoordsPerVertexCount, GLES30.GL_FLOAT, false, VertexStride, mVertexBuffer);
-//        GLES30.glVertexAttribPointer(af_Position, CoordsPerTextureCount, GLES30.GL_FLOAT, false, TextureStride, mDisplayTextureBuffer);
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mVertexBufferId);
-        GLES30.glVertexAttribPointer(av_Position, CoordsPerVertexCount, GLES30.GL_FLOAT, false, 0, 0);
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mDisplayTextureBufferId);
-        GLES30.glVertexAttribPointer(af_Position, CoordsPerTextureCount, GLES30.GL_FLOAT, false, 0, 0);
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, 0);
-        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mTextureId);
-        GLES30.glUniform1i(s_Texture, 0);
-        // 绘制 GLES30.GL_TRIANGLE_STRIP:复用坐标
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_STRIP, 0, VertexCount);
-        GLES30.glDisableVertexAttribArray(av_Position);
-        GLES30.glDisableVertexAttribArray(af_Position);
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, 0);
+        GLES20.glEnableVertexAttribArray(av_Position);
+        GLES20.glEnableVertexAttribArray(af_Position);
+//        GLES20.glVertexAttribPointer(av_Position, CoordsPerVertexCount, GLES20.GL_FLOAT, false, VertexStride, mVertexBuffer);
+//        GLES20.glVertexAttribPointer(af_Position, CoordsPerTextureCount, GLES20.GL_FLOAT, false, TextureStride, mDisplayTextureBuffer);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVertexBufferId);
+        GLES20.glVertexAttribPointer(av_Position, CoordsPerVertexCount, GLES20.GL_FLOAT, false, 0, 0);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mDisplayTextureBufferId);
+        GLES20.glVertexAttribPointer(af_Position, CoordsPerTextureCount, GLES20.GL_FLOAT, false, 0, 0);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureId);
+        GLES20.glUniform1i(s_Texture, 0);
+        // 绘制 GLES20.GL_TRIANGLE_STRIP:复用坐标
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, VertexCount);
+        GLES20.glDisableVertexAttribArray(av_Position);
+        GLES20.glDisableVertexAttribArray(af_Position);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
     }
 
     @Override

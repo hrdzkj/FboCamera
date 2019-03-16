@@ -42,39 +42,39 @@ public class OriginalImageRenderDrawer extends BaseRenderDrawer {
         mFrameBuffer = GlesUtil.createFrameBuffer();
         GlesUtil.bindFrameTexture(mFrameBuffer, mOutputTextureId);
         mInputTextureId = GlesUtil.loadBitmapTexture(mContext, R.mipmap.ic_launcher);
-        avPosition = GLES30.glGetAttribLocation(mProgram, "av_Position");
-        afPosition = GLES30.glGetAttribLocation(mProgram, "af_Position");
-        sTexture = GLES30.glGetUniformLocation(mProgram, "sTexture");
+        avPosition = GLES20.glGetAttribLocation(mProgram, "av_Position");
+        afPosition = GLES20.glGetAttribLocation(mProgram, "af_Position");
+        sTexture = GLES20.glGetUniformLocation(mProgram, "sTexture");
     }
 
     @Override
     protected void onDraw() {
         bindFrameBuffer();
 
-        GLES30.glEnableVertexAttribArray(avPosition);
-        GLES30.glEnableVertexAttribArray(afPosition);
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mVertexBufferId);
-        GLES30.glVertexAttribPointer(avPosition, CoordsPerVertexCount, GLES30.GL_FLOAT, false, 0, 0);
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mDisplayTextureBufferId);
-        GLES30.glVertexAttribPointer(afPosition, CoordsPerTextureCount, GLES30.GL_FLOAT, false, 0, 0);
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, 0);
-        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mInputTextureId);
-        GLES30.glUniform1i(sTexture, 0);
-        //绘制 GLES30.GL_TRIANGLE_STRIP:复用坐标
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_STRIP, 0, VertexCount);
-        GLES30.glDisableVertexAttribArray(avPosition);
-        GLES30.glDisableVertexAttribArray(afPosition);
+        GLES20.glEnableVertexAttribArray(avPosition);
+        GLES20.glEnableVertexAttribArray(afPosition);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVertexBufferId);
+        GLES20.glVertexAttribPointer(avPosition, CoordsPerVertexCount, GLES20.GL_FLOAT, false, 0, 0);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mDisplayTextureBufferId);
+        GLES20.glVertexAttribPointer(afPosition, CoordsPerTextureCount, GLES20.GL_FLOAT, false, 0, 0);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mInputTextureId);
+        GLES20.glUniform1i(sTexture, 0);
+        //绘制 GLES20.GL_TRIANGLE_STRIP:复用坐标
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, VertexCount);
+        GLES20.glDisableVertexAttribArray(avPosition);
+        GLES20.glDisableVertexAttribArray(afPosition);
 
         unBindFrameBuffer();
     }
 
     public void bindFrameBuffer() {
-        GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, mFrameBuffer);
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFrameBuffer);
     }
 
     public void unBindFrameBuffer() {
-        GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, 0);
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
     }
 
     @Override

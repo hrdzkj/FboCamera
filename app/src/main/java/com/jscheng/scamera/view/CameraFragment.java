@@ -2,9 +2,6 @@ package com.jscheng.scamera.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -21,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.jscheng.scamera.R;
 import com.jscheng.scamera.util.CameraUtil;
@@ -30,10 +26,6 @@ import com.jscheng.scamera.widget.CameraFocusView;
 import com.jscheng.scamera.widget.CameraGLSurfaceView;
 import com.jscheng.scamera.widget.CameraProgressButton;
 import com.jscheng.scamera.widget.CameraSwitchView;
-
-import java.nio.ByteBuffer;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static com.jscheng.scamera.util.LogUtil.TAG;
 
@@ -68,10 +60,10 @@ public class CameraFragment extends Fragment implements CameraProgressButton.Lis
     private void initView(View contentView) {
         isFocusing = false;
         mPreviewSize = null;
-        mCameraView = contentView.findViewById(R.id.camera_view);
-        mProgressBtn = contentView.findViewById(R.id.progress_btn);
-        mFocusView = contentView.findViewById(R.id.focus_view);
-        mSwitchView = contentView.findViewById(R.id.switch_view);
+        mCameraView = (CameraGLSurfaceView)contentView.findViewById(R.id.camera_view);
+        mProgressBtn = (CameraProgressButton)contentView.findViewById(R.id.progress_btn);
+        mFocusView = (CameraFocusView)contentView.findViewById(R.id.focus_view);
+        mSwitchView = (CameraSwitchView)contentView.findViewById(R.id.switch_view);
 
         mCameraSensor = new CameraSensor(getContext());
         mCameraSensor.setCameraSensorListener(this);

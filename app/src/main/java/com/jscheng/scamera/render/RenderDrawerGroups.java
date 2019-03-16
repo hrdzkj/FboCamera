@@ -1,8 +1,7 @@
 package com.jscheng.scamera.render;
 
 import android.content.Context;
-import android.opengl.EGLContext;
-import android.opengl.GLES30;
+import android.opengl.GLES20;
 import android.util.Log;
 
 import com.jscheng.scamera.util.GlesUtil;
@@ -35,17 +34,17 @@ public class RenderDrawerGroups {
     }
 
     public void bindFrameBuffer(int textureId) {
-        GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, mFrameBuffer);
-        GLES30.glFramebufferTexture2D(GLES30.GL_FRAMEBUFFER, GLES30.GL_COLOR_ATTACHMENT0, GLES30.GL_TEXTURE_2D, textureId, 0);
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFrameBuffer);
+        GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0, GLES20.GL_TEXTURE_2D, textureId, 0);
     }
 
     public void unBindFrameBuffer() {
-        GLES30.glBindFramebuffer(GLES30.GL_FRAMEBUFFER, 0);
+        GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
     }
 
     public void deleteFrameBuffer() {
-        GLES30.glDeleteFramebuffers(1, new int[]{mFrameBuffer}, 0);
-        GLES30.glDeleteTextures(1, new int[]{mInputTexture}, 0);
+        GLES20.glDeleteFramebuffers(1, new int[]{mFrameBuffer}, 0);
+        GLES20.glDeleteTextures(1, new int[]{mInputTexture}, 0);
     }
 
     public void create() {

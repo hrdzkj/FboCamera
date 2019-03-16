@@ -2,11 +2,10 @@ package com.jscheng.scamera.widget;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
-import android.opengl.EGL14;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
+
 import com.jscheng.scamera.render.CameraSurfaceRender;
-import java.nio.ByteBuffer;
 
 /**
  * Created By Chengjunsen on 2018/8/25
@@ -25,7 +24,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements CameraSurfaceR
     }
 
     private void init(Context context) {
-        setEGLContextClientVersion(3);
+        setEGLContextClientVersion(2);
         setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
         mRender = new CameraSurfaceRender(context);
         mRender.setCallback(this);

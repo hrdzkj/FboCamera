@@ -1,6 +1,6 @@
 package com.jscheng.scamera.render;
 
-import android.opengl.GLES30;
+import android.opengl.GLES20;
 
 import com.jscheng.scamera.util.GlesUtil;
 
@@ -110,13 +110,13 @@ public abstract class BaseRenderDrawer {
     }
 
     protected void clear(){
-        GLES30.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-        GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
+        GLES20.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
     }
 
     protected void initVertexBufferObjects() {
         int[] vbo = new int[5];
-        GLES30.glGenBuffers(5, vbo, 0);
+        GLES20.glGenBuffers(5, vbo, 0);
 
         mVertexBuffer = ByteBuffer.allocateDirect(vertexData.length * 4)
                 .order(ByteOrder.nativeOrder())
@@ -125,8 +125,8 @@ public abstract class BaseRenderDrawer {
         mVertexBuffer.position(0);
         mVertexBufferId = vbo[0];
         // ARRAY_BUFFER 将使用 Float*Array 而 ELEMENT_ARRAY_BUFFER 必须使用 Uint*Array
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mVertexBufferId);
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, vertexData.length * 4, mVertexBuffer, GLES30.GL_STATIC_DRAW);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVertexBufferId);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertexData.length * 4, mVertexBuffer, GLES20.GL_STATIC_DRAW);
 
 
         mBackTextureBuffer = ByteBuffer.allocateDirect(backTextureData.length * 4)
@@ -135,8 +135,8 @@ public abstract class BaseRenderDrawer {
                 .put(backTextureData);
         mBackTextureBuffer.position(0);
         mBackTextureBufferId = vbo[1];
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mBackTextureBufferId);
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, backTextureData.length * 4, mBackTextureBuffer, GLES30.GL_STATIC_DRAW);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mBackTextureBufferId);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, backTextureData.length * 4, mBackTextureBuffer, GLES20.GL_STATIC_DRAW);
 
         mFrontTextureBuffer = ByteBuffer.allocateDirect(frontTextureData.length * 4)
                 .order(ByteOrder.nativeOrder())
@@ -145,8 +145,8 @@ public abstract class BaseRenderDrawer {
         mFrontTextureBuffer.position(0);
         mFrontTextureBufferId = vbo[2];
          // glBindBuffer 激活缓冲
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mFrontTextureBufferId);
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, frontTextureData.length * 4, mFrontTextureBuffer, GLES30.GL_STATIC_DRAW);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mFrontTextureBufferId);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, frontTextureData.length * 4, mFrontTextureBuffer, GLES20.GL_STATIC_DRAW);
 
         mDisplayTextureBuffer = ByteBuffer.allocateDirect(displayTextureData.length * 4)
                 .order(ByteOrder.nativeOrder())
@@ -154,8 +154,8 @@ public abstract class BaseRenderDrawer {
                 .put(displayTextureData);
         mDisplayTextureBuffer.position(0);
         mDisplayTextureBufferId = vbo[3];
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mDisplayTextureBufferId);
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, displayTextureData.length * 4, mDisplayTextureBuffer, GLES30.GL_STATIC_DRAW);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mDisplayTextureBufferId);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, displayTextureData.length * 4, mDisplayTextureBuffer, GLES20.GL_STATIC_DRAW);
 
         mFrameTextureBuffer = ByteBuffer.allocateDirect(frameBufferData.length * 4)
                 .order(ByteOrder.nativeOrder())
@@ -163,18 +163,18 @@ public abstract class BaseRenderDrawer {
                 .put(frameBufferData);
         mFrameTextureBuffer.position(0);
         mFrameTextureBufferId = vbo[4];
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, mFrameTextureBufferId);
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, frameBufferData.length * 4, mFrameTextureBuffer, GLES30.GL_STATIC_DRAW);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mFrameTextureBufferId);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, frameBufferData.length * 4, mFrameTextureBuffer, GLES20.GL_STATIC_DRAW);
 
-        GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER,0);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER,0);
     }
 
     protected void useProgram(){
-        GLES30.glUseProgram(mProgram);
+        GLES20.glUseProgram(mProgram);
     }
 
     protected void viewPort(int x, int y, int width, int height) {
-        GLES30.glViewport(x, y, width,  height);
+        GLES20.glViewport(x, y, width,  height);
     }
 
     public abstract void setInputTextureId(int textureId);
