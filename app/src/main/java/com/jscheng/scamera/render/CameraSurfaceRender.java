@@ -21,7 +21,7 @@ public class CameraSurfaceRender implements GLSurfaceView.Renderer {
     private CameraSurfaceRenderCallback mCallback;//目的是把回调(onSurfaceCreated,onSurfaceChanged,onDrawFrame，onFrameAvailable)传递出去
     private RenderDrawerGroups mRenderGroups;
     private int width, height;
-    private int mCameraTextureId;//GLES创建的GL_TEXTURE_EXTERNAL_OES纹理，接受Camera原始数据
+    private int mCameraTextureId;
     private SurfaceTexture mCameraTexture; // 用来给Camera进行预览的
     private float[] mTransformMatrix;
     private long timestamp;
@@ -33,6 +33,7 @@ public class CameraSurfaceRender implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
+        //GLES创建的GL_TEXTURE_EXTERNAL_OES纹理，调用SurfaceTexture.updateTexImage时mCameraTextureId接受到Camera的原始数据
         mCameraTextureId = GlesUtil.createCameraTexture();
         mRenderGroups.setInputTexture(mCameraTextureId);
         mRenderGroups.create();
@@ -69,10 +70,10 @@ public class CameraSurfaceRender implements GLSurfaceView.Renderer {
     @Override
     public void onDrawFrame(GL10 gl10) {
         if (mCameraTexture != null) {
-            mCameraTexture.updateTexImage();
+            mCameraTexture.updateTexImage();//更新到纹理mCameraTextureId
             timestamp = mCameraTexture.getTimestamp();
             mCameraTexture.getTransformMatrix(mTransformMatrix);
-            mRenderGroups.draw(timestamp, mTransformMatrix);
+            mRenderGroups.draw(timestamp, mTransformMatrix);//执行自定义的绘制
         }
         if (mCallback != null) {
             mCallback.onDraw();

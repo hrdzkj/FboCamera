@@ -15,7 +15,7 @@ public class OriginalRenderDrawer extends BaseRenderDrawer {
     private int af_Position;
     private int s_Texture;
     private int mInputTextureId;
-    private int mOutputTextureId;
+    private int mOutputTextureId;//外部纹理对象
 
     @Override
     protected void onCreated() {
@@ -30,16 +30,18 @@ public class OriginalRenderDrawer extends BaseRenderDrawer {
         s_Texture = GLES20.glGetUniformLocation(mProgram, "s_Texture");
     }
 
+    // 原始数据的绘制，是在摄像头数据mInputTextureId的基础上进行绘制
     @Override
     protected void onDraw() {
         if (mInputTextureId == 0 || mOutputTextureId == 0) {
             return;
         }
+
         GLES20.glEnableVertexAttribArray(av_Position);
         GLES20.glEnableVertexAttribArray(af_Position);
-        //GLES20.glVertexAttribPointer(av_Position, CoordsPerVertexCount, GLES20.GL_FLOAT, false, VertexStride, mVertexBuffer);
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVertexBufferId);
         GLES20.glVertexAttribPointer(av_Position, CoordsPerVertexCount, GLES20.GL_FLOAT, false, 0, 0);
+        // 激活缓冲区对象
         if (CameraUtil.isBackCamera()) {
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mBackTextureBufferId);
         } else {
@@ -48,12 +50,20 @@ public class OriginalRenderDrawer extends BaseRenderDrawer {
         GLES20.glVertexAttribPointer(af_Position, CoordsPerTextureCount, GLES20.GL_FLOAT, false, 0, 0);
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
         bindTexture(mInputTextureId);
+        //glDrawArrays作用：使用当前激活的顶点着色器的顶点数据和片段着色器数据来绘制基本图形
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, VertexCount);
         unBindTexure();
         GLES20.glDisableVertexAttribArray(av_Position);
         GLES20.glDisableVertexAttribArray(af_Position);
+
     }
 
+    //将绑定纹理textureId到目标GLES11Ext.GL_TEXTURE_EXTERNAL_OES指定的当前活动纹理单元GL_TEXTURE0
+    /*
+    绑定纹理,值得注意的是，纹理帮定的目标(target)并不是通常的GL_TEXTURE_2D，而是GL_TEXTURE_EXTERNAL_OES,
+    这是因为Camera使用的输出texture是一种特殊的格式。同样的，在shader中我们也必须使用SamperExternalOES
+    的变量类型来访问该纹理
+     */
     private void bindTexture(int textureId) {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureId);

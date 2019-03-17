@@ -169,6 +169,7 @@ public class GlesUtil {
         return textureId;
     }
 
+    //纹理对象绑定到FBO，那么OpenGL就会执行渲染到纹理（render to texture）的操作
     public static void bindFrameTexture(int frameBufferId, int textureId){
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, frameBufferId);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
@@ -178,6 +179,7 @@ public class GlesUtil {
         GlesUtil.checkError();
     }
 
+    // 渲染对象绑定到FBO，那么OpenGL会执行离屏渲染(offscreen rendering)
     public static void bindFrameRender(int frameBufferId, int renderId, int width, int height) {
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, frameBufferId);
         GLES20.glBindRenderbuffer(GLES20.GL_RENDERBUFFER, renderId);
