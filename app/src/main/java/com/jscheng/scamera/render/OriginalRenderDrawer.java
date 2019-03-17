@@ -41,7 +41,6 @@ public class OriginalRenderDrawer extends BaseRenderDrawer {
         GLES20.glEnableVertexAttribArray(af_Position);
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVertexBufferId);
         GLES20.glVertexAttribPointer(av_Position, CoordsPerVertexCount, GLES20.GL_FLOAT, false, 0, 0);
-        // 激活缓冲区对象
         if (CameraUtil.isBackCamera()) {
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mBackTextureBufferId);
         } else {

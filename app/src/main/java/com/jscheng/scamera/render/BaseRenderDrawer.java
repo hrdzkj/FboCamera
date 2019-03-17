@@ -45,7 +45,8 @@ public abstract class BaseRenderDrawer {
             -1f, -1f,// 左下角
             1f, -1f, // 右下角
             -1f, 1f, // 左上角
-            1f, 1f,  // 右上角
+             1f, 1f,  // 右上角
+            //0f, 1f,  // 右上角
     };
 
     protected float frontTextureData[] = {
@@ -116,7 +117,7 @@ public abstract class BaseRenderDrawer {
 
     protected void initVertexBufferObjects() {
         int[] vbo = new int[5];
-        GLES20.glGenBuffers(5, vbo, 0);
+        GLES20.glGenBuffers(5, vbo, 0);//生成新缓存对象
 
         mVertexBuffer = ByteBuffer.allocateDirect(vertexData.length * 4)
                 .order(ByteOrder.nativeOrder())
@@ -124,9 +125,8 @@ public abstract class BaseRenderDrawer {
                 .put(vertexData);
         mVertexBuffer.position(0);
         mVertexBufferId = vbo[0];
-        // ARRAY_BUFFER 将使用 Float*Array 而 ELEMENT_ARRAY_BUFFER 必须使用 Uint*Array
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVertexBufferId);
-        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertexData.length * 4, mVertexBuffer, GLES20.GL_STATIC_DRAW);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVertexBufferId);//绑定缓存对象
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, vertexData.length * 4, mVertexBuffer, GLES20.GL_STATIC_DRAW);//将顶点数据拷贝到缓存对象中
 
 
         mBackTextureBuffer = ByteBuffer.allocateDirect(backTextureData.length * 4)
@@ -144,7 +144,6 @@ public abstract class BaseRenderDrawer {
                 .put(frontTextureData);
         mFrontTextureBuffer.position(0);
         mFrontTextureBufferId = vbo[2];
-         // glBindBuffer 激活缓冲
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mFrontTextureBufferId);
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, frontTextureData.length * 4, mFrontTextureBuffer, GLES20.GL_STATIC_DRAW);
 
