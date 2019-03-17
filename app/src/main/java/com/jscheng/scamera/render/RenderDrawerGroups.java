@@ -87,9 +87,9 @@ public class RenderDrawerGroups {
          //mDisplayDrawer/mRecordDrawer 不绑定FBO，直接绘制到屏幕上
         // 绘制顺序会控制着 水印绘制哪一层
         drawRender(mOriginalDrawer, true, timestamp, transformMatrix);  // 黑屏
-        drawRender(mDisplayDrawer, false,  timestamp, transformMatrix);//花屏
-        drawRender(mWaterMarkDrawer, true, timestamp, transformMatrix); //黑屏
-        drawRender(mRecordDrawer, false, timestamp, transformMatrix);//黑屏
+        //drawRender(mDisplayDrawer, false,  timestamp, transformMatrix);//花屏
+        //drawRender(mWaterMarkDrawer, true, timestamp, transformMatrix); //黑屏
+        //drawRender(mRecordDrawer, false, timestamp, transformMatrix);//黑屏
 
         /*
        drawRender(mOriginalDrawer, true, timestamp, transformMatrix);

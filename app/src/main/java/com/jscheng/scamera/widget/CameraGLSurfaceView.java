@@ -10,7 +10,10 @@ import com.jscheng.scamera.render.CameraSurfaceRender;
 /**
  * Created By Chengjunsen on 2018/8/25
  */
-public class CameraGLSurfaceView extends GLSurfaceView implements CameraSurfaceRender.CameraSufaceRenderCallback{
+public class CameraGLSurfaceView extends GLSurfaceView implements CameraSurfaceRender.CameraSurfaceRenderCallback {
+    /* mCallback是像陈吉一样封装一次接口回调给外部，在合适的时候进行回调
+       在本类内部实现GLSurfaceView.Renderer（CameraSurfaceRender implements GLSurfaceView.Renderer）。
+     */
     private CameraSurfaceRender mRender;
     private CameraGLSurfaceViewCallback mCallback;
 
@@ -22,6 +25,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements CameraSurfaceR
         super(context, attrs);
         init(context);
     }
+
 
     private void init(Context context) {
         setEGLContextClientVersion(2);
@@ -36,6 +40,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements CameraSurfaceR
         return mRender.getCameraSurfaceTexture();
     }
 
+    //摄像头有可用数据
     @Override
     public void onRequestRender() {
         requestRender();
@@ -48,6 +53,8 @@ public class CameraGLSurfaceView extends GLSurfaceView implements CameraSurfaceR
         }
     }
 
+
+
     @Override
     public void onChanged(int width, int height) {
         if (mCallback != null) {
@@ -57,7 +64,6 @@ public class CameraGLSurfaceView extends GLSurfaceView implements CameraSurfaceR
 
     @Override
     public void onDraw() {
-
     }
 
     public void setCallback(CameraGLSurfaceViewCallback mCallback) {

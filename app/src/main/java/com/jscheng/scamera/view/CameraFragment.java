@@ -40,7 +40,7 @@ public class CameraFragment extends Fragment implements CameraProgressButton.Lis
     private final static int MSG_MANUAL_FOCUS = 4;
     private final static int MSG_ROCK = 5;
 
-    private CameraGLSurfaceView mCameraView;
+    private CameraGLSurfaceView mCameraView; // 提供SurfaceTexture给camera，接受Camera原始数据
     private CameraSensor mCameraSensor;
     private CameraProgressButton mProgressBtn;
     private CameraFocusView mFocusView;
@@ -57,6 +57,7 @@ public class CameraFragment extends Fragment implements CameraProgressButton.Lis
         return contentView;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void initView(View contentView) {
         isFocusing = false;
         mPreviewSize = null;

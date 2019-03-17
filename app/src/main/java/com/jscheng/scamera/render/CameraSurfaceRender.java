@@ -18,11 +18,11 @@ import static com.jscheng.scamera.util.LogUtil.TAG;
  */
 public class CameraSurfaceRender implements GLSurfaceView.Renderer {
 
-    private CameraSufaceRenderCallback mCallback;
+    private CameraSurfaceRenderCallback mCallback;//目的是把回调(onSurfaceCreated,onSurfaceChanged,onDrawFrame，onFrameAvailable)传递出去
     private RenderDrawerGroups mRenderGroups;
     private int width, height;
-    private int mCameraTextureId;
-    private SurfaceTexture mCameraTexture;
+    private int mCameraTextureId;//GLES创建的GL_TEXTURE_EXTERNAL_OES纹理，接受Camera原始数据
+    private SurfaceTexture mCameraTexture; // 用来给Camera进行预览的
     private float[] mTransformMatrix;
     private long timestamp;
 
@@ -42,7 +42,7 @@ public class CameraSurfaceRender implements GLSurfaceView.Renderer {
         }
     }
 
-    public void initCameraTexture() {
+    private void initCameraTexture() {
         mCameraTexture = new SurfaceTexture(mCameraTextureId);
         mCameraTexture.setOnFrameAvailableListener(new SurfaceTexture.OnFrameAvailableListener() {
                 @Override
@@ -65,6 +65,7 @@ public class CameraSurfaceRender implements GLSurfaceView.Renderer {
         }
     }
 
+    // 这个回调的职责是绘制当前帧，这是用opengl来绘制，做到让Camera的数据和显示分离。（应该是在:GLSurfaceView.requestRender触发该回调）
     @Override
     public void onDrawFrame(GL10 gl10) {
         if (mCameraTexture != null) {
@@ -82,7 +83,7 @@ public class CameraSurfaceRender implements GLSurfaceView.Renderer {
         return mCameraTexture;
     }
 
-    public void setCallback(CameraSufaceRenderCallback mCallback) {
+    public void setCallback(CameraSurfaceRenderCallback mCallback) {
         this.mCallback = mCallback;
     }
 
@@ -105,7 +106,7 @@ public class CameraSurfaceRender implements GLSurfaceView.Renderer {
         mRenderGroups.stopRecord();
     }
 
-    public interface CameraSufaceRenderCallback {
+    public interface CameraSurfaceRenderCallback {
         void onRequestRender();
         void onCreate();
         void onChanged(int width, int height);
