@@ -35,9 +35,11 @@ public abstract class BaseRenderDrawer {
     private FloatBuffer mBackTextureBuffer;
     protected int mBackTextureBufferId;
 
+    //?????
     private FloatBuffer mDisplayTextureBuffer;
     protected int mDisplayTextureBufferId;
 
+    //VBO定点数据,用于画水印 ？？？
     private FloatBuffer mFrameTextureBuffer;
     protected int mFrameTextureBufferId;
 
@@ -46,7 +48,6 @@ public abstract class BaseRenderDrawer {
             1f, -1f, // 右下角
             -1f, 1f, // 左上角
              1f, 1f,  // 右上角
-            //0f, 1f,  // 右上角
     };
 
     protected float frontTextureData[] = {
@@ -60,9 +61,10 @@ public abstract class BaseRenderDrawer {
             0f, 1f, // 左上角
             0f, 0f, //  左下角
             1f, 1f, // 右上角
-            1f, 0f  // 右上角
+            1f, 0f  // 右下角
     };
 
+    //
     protected float displayTextureData[] = {
             0f, 1f,
             1f, 1f,
@@ -146,6 +148,7 @@ public abstract class BaseRenderDrawer {
         mFrontTextureBufferId = vbo[2];
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mFrontTextureBufferId);
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, frontTextureData.length * 4, mFrontTextureBuffer, GLES20.GL_STATIC_DRAW);
+
 
         mDisplayTextureBuffer = ByteBuffer.allocateDirect(displayTextureData.length * 4)
                 .order(ByteOrder.nativeOrder())
