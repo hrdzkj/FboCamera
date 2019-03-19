@@ -38,24 +38,13 @@ public class DisplayRenderDrawer extends BaseRenderDrawer {
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureId);
-        GLES20.glUniform1i(s_Texture, 0); //这个好像不用也可以
+        GLES20.glUniform1i(s_Texture, 0); //把当前纹理单元传递给shader
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, VertexCount); // 绘制 GLES20.GL_TRIANGLE_STRIP:复用坐标
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
         GLES20.glDisableVertexAttribArray(af_Position);
         GLES20.glDisableVertexAttribArray(av_Position);
     }
 
-    /*
-    private void bind2DTexture(int textureId, int textureType) {
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + textureType);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
-        GLES20.glUniform1i(s_Texture, textureType);
-    }
-
-    private void unBind2DTexure() {
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
-    }
-*/
 
     @Override
     public void setInputTextureId(int textureId) {
