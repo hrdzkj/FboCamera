@@ -68,15 +68,20 @@ public class DisplayRenderDrawer extends BaseRenderDrawer {
                 "}";
         return source;
     }
-
-    //texture2D 第一个参数代表图片纹理,本例子GLES20.glUniform1i(s_Texture, 0)传递默认纹理单元过来;
+/*
+这里使用的 s_Texture 并不像其它类型变量一样，按宿主语言中给定的值，直接换成相应的数值，是不能就能跑起来。
+因为，这中间渲染管线根据宿主语言中设置的数值指定的位置，找到相应的纹理单元，并把该纹理单元上挂载的纹理对象取出来，
+传给相应的 sampler2D s_Texture 。
+ */
+    //texture2D功能：GLSL的内建取纹理方法函数, 通过使用传入的纹理坐标从这个纹理对象中取适当范围内纹理的颜色RGBA值。
+   // 第一个参数代表图片纹理,本例子GLES20.glUniform1i(s_Texture, 0)传递默认纹理单元过来;
     // 第二个参数代表纹理坐标点，本例子传递af_Position过来
-    // 通过GLSL的内建函数texture2D来获取对应位置纹理的颜色RGBA值
+    // 通过GLSL的内建取纹理方法函数
     @Override
     protected String getFragmentSource() {
         final String source = "precision mediump float;\n" +
                 "varying vec2 v_texPo;\n" + //纹理位置  接收于vertex_shader
-                "uniform sampler2D s_Texture;\n" +
+                "uniform sampler2D s_Texture;\n" + // 并不是简单的0，而是sampler2D
                 "void main() {\n" +
                 "   vec4 tc = texture2D(s_Texture, v_texPo);\n" +
                 "   float color = tc.r * 0.3 + tc.g * 0.59 + tc.b * 0.11;\n" +

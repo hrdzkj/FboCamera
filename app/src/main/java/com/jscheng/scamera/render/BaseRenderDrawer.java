@@ -66,7 +66,7 @@ public abstract class BaseRenderDrawer {
     };
 
     //显示纹理坐标，用于纹理位置af_Position
-    //与vertexData相比，翻转过来了
+    //与vertexData相比，翻转过来了；目前是整个纹理片的范围
     protected float displayTextureData[] = {
             0f, 1f,
             1f, 1f,
