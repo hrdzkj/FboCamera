@@ -35,11 +35,11 @@ public abstract class BaseRenderDrawer {
     private FloatBuffer mBackTextureBuffer;
     protected int mBackTextureBufferId;
 
-    //?????
+    //同时用于DisplayRenderDrawer/RecordRenderDawer 是什么坐标呢?????
     private FloatBuffer mDisplayTextureBuffer;
     protected int mDisplayTextureBufferId;
 
-    //VBO定点数据,用于画水印 ？？？
+    //VBO定点数据,用于画水印
     private FloatBuffer mFrameTextureBuffer;
     protected int mFrameTextureBufferId;
 
@@ -57,6 +57,7 @@ public abstract class BaseRenderDrawer {
             0f, 0f //  左下角
     };
 
+    //使用 ??为什么坐标循序是这样
     protected float backTextureData[] = {
             0f, 1f, // 左上角
             0f, 0f, //  左下角

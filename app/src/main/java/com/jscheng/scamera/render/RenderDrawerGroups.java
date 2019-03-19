@@ -68,7 +68,7 @@ public class RenderDrawerGroups {
         int textureId = this.mOriginalDrawer.getOutputTextureId();
         mWaterMarkDrawer.setInputTextureId(textureId);
         mDisplayDrawer.setInputTextureId(textureId);
-        mRecordDrawer.setInputTextureId(textureId);
+        mRecordDrawer. setInputTextureId(textureId);
     }
 
     //外部纹理进行了bindFrameBuffer就是离屏渲染，没有bindFrameBuffer，渲染操作都是在默认的帧缓冲之上进行
@@ -97,7 +97,7 @@ public class RenderDrawerGroups {
          //mDisplayDrawer/mRecordDrawer 不绑定FBO，直接绘制到屏幕上
         // 绘制顺序会控制着 水印绘制哪一层
         drawRender(mOriginalDrawer, false, timestamp, transformMatrix);  // 黑屏
-        //drawRender(mDisplayDrawer, false,  timestamp, transformMatrix);//花屏
+        //drawRender(mDisplayDrawer, false,  timestamp, transformMatrix);
         //drawRender(mWaterMarkDrawer, true, timestamp, transformMatrix); //黑屏
         //drawRender(mRecordDrawer, false, timestamp, transformMatrix);//黑屏
 

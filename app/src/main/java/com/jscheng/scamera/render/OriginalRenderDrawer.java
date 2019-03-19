@@ -2,6 +2,7 @@ package com.jscheng.scamera.render;
 
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
+import android.util.Log;
 
 import com.jscheng.scamera.util.CameraUtil;
 import com.jscheng.scamera.util.GlesUtil;
@@ -39,11 +40,13 @@ public class OriginalRenderDrawer extends BaseRenderDrawer {
 
         GLES20.glEnableVertexAttribArray(av_Position);
         GLES20.glEnableVertexAttribArray(af_Position);
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVertexBufferId);
+        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVertexBufferId);//传入顶点坐标
         GLES20.glVertexAttribPointer(av_Position, CoordsPerVertexCount, GLES20.GL_FLOAT, false, 0, 0);
-        if (CameraUtil.isBackCamera()) {
+        if (CameraUtil.isBackCamera()) { //传入纹理坐标
+            Log.v("---->","isBackCamera");
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mBackTextureBufferId);
         } else {
+            Log.v("---->","isFrontCamera");
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mFrontTextureBufferId);
         }
         GLES20.glVertexAttribPointer(af_Position, CoordsPerTextureCount, GLES20.GL_FLOAT, false, 0, 0);
@@ -83,6 +86,8 @@ public class OriginalRenderDrawer extends BaseRenderDrawer {
         return mOutputTextureId;
     }
 
+    // 由于纹理坐标系y轴方向都是向上的，android手机坐标系的y轴是向下的。所以openGL->手机显示，需要把坐标做上下旋转。
+    // 可能最后再翻转比较好处理
     @Override
     protected String getVertexSource() {
         final String source = "attribute vec4 av_Position; " +
@@ -91,6 +96,7 @@ public class OriginalRenderDrawer extends BaseRenderDrawer {
                 "void main() { " +
                 "    v_texPo = af_Position; " +
                 "    gl_Position = av_Position; " +
+                //"    gl_Position = vec4(av_Position.x, -av_Position.y, av_Position.z, av_Position.w); " +
                 "}";
         return source;
     }
