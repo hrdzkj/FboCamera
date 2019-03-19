@@ -92,6 +92,7 @@ public class DisplayRenderDrawer extends BaseRenderDrawer {
                 "   vec4 tc = texture2D(s_Texture, v_texPo);\n" +
                 "   float color = tc.r * 0.3 + tc.g * 0.59 + tc.b * 0.11;\n" +
                 "   gl_FragColor = texture2D(s_Texture, v_texPo);\n" +
+                //"    gl_FragColor = vec4(0.4,0.4,0.8,1.0);\n" +
                 "}";
         return source;
     }
