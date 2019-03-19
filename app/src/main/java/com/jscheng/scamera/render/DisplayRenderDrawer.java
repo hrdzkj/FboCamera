@@ -67,11 +67,12 @@ public class DisplayRenderDrawer extends BaseRenderDrawer {
         return mTextureId;
     }
 
+
     @Override
     protected String getVertexSource() {
-        final String source = "attribute vec4 av_Position; " +
-                "attribute vec2 af_Position; " +
-                "varying vec2 v_texPo; " +
+        final String source = "attribute vec4 av_Position; " + // 定点位置
+                "attribute vec2 af_Position; " + // 纹理位置
+                "varying vec2 v_texPo; " + // 纹理位置 与fragment_shader交互
                 "void main() { " +
                 "    v_texPo = af_Position; " +
                 "    gl_Position = av_Position; " +
@@ -79,16 +80,18 @@ public class DisplayRenderDrawer extends BaseRenderDrawer {
         return source;
     }
 
+    //texture2D 第一个参数代表图片纹理,本例子GLES20.glUniform1i(s_Texture, 0)传递默认纹理单元过来;
+    // 第二个参数代表纹理坐标点，本例子传递af_Position过来
+    // 通过GLSL的内建函数texture2D来获取对应位置纹理的颜色RGBA值
     @Override
     protected String getFragmentSource() {
         final String source = "precision mediump float;\n" +
-                "varying vec2 v_texPo;\n" +
+                "varying vec2 v_texPo;\n" + //纹理位置  接收于vertex_shader
                 "uniform sampler2D s_Texture;\n" +
                 "void main() {\n" +
                 "   vec4 tc = texture2D(s_Texture, v_texPo);\n" +
                 "   float color = tc.r * 0.3 + tc.g * 0.59 + tc.b * 0.11;\n" +
                 "   gl_FragColor = texture2D(s_Texture, v_texPo);\n" +
-                //"    gl_FragColor = vec4(color, color, color, 1);\n" +
                 "}";
         return source;
     }
