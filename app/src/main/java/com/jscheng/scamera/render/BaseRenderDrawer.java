@@ -75,6 +75,7 @@ public abstract class BaseRenderDrawer {
     };
 
 
+    // 画水印时候传递给avPosition。
     protected float frameBufferData[] = {
             0f, 0f,
             1f, 0f,

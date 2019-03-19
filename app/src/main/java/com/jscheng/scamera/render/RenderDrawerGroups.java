@@ -96,10 +96,12 @@ public class RenderDrawerGroups {
          //mOriginalDrawer/mWaterMarkDrawer 将绑定到FBO中，最后转换成mOriginalDrawer中的Sample2D纹理
          //mDisplayDrawer/mRecordDrawer 不绑定FBO，直接绘制到屏幕上
         // 绘制顺序会控制着 水印绘制哪一层
-        drawRender(mOriginalDrawer, true, timestamp, transformMatrix);  // 黑屏
-        drawRender(mDisplayDrawer, false,  timestamp, transformMatrix);
-        //drawRender(mWaterMarkDrawer, true, timestamp, transformMatrix); //黑屏
-        //drawRender(mRecordDrawer, false, timestamp, transformMatrix);//黑屏
+        drawRender(mOriginalDrawer, true, timestamp, transformMatrix);  // 输出纹理＝Original
+        //drawRender(mDisplayDrawer, false,  timestamp, transformMatrix); //显示原始数据
+        drawRender(mWaterMarkDrawer, true, timestamp, transformMatrix); //输出纹理＝Original+WaterMark
+        drawRender(mDisplayDrawer, false,  timestamp, transformMatrix); //显示输出纹理
+        //drawRender(mRecordDrawer, false, timestamp, transformMatrix);//????
+
 
         /*
         顺序：1.mOriginalDrawer:绘制的数据基础是mInputTexture，渲染到FBO(FBO<--mOutputTexture,mOutputTexture=mInputTexture+ondraw)

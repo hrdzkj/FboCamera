@@ -45,6 +45,7 @@ public class WaterMarkRenderDrawer extends BaseRenderDrawer{
         sTexture = GLES20.glGetUniformLocation(mProgram, "sTexture");
     }
 
+    //重写了draw 方法
     @Override
     public void draw(long timestamp, float[] transformMatrix) {
         useProgram();
