@@ -41,7 +41,7 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
     private int s_Texture;
 
 
-    public RecordRenderDrawer(Context context) {
+    public RecordRenderDrawer() {
         this.mVideoEncoder = null;
         this.mEglHelper = null;
         this.mTextureId = 0;
@@ -78,20 +78,16 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
         mMsgHandler.sendMessage(mMsgHandler.obtainMessage(MsgHandler.MSG_STOP_RECORD));
     }
 
-    public void quit() {
-        mMsgHandler.sendMessage(mMsgHandler.obtainMessage(MsgHandler.MSG_QUIT));
-    }
-
     @Override
     public void surfaceChangedSize(int width, int height) {
         this.width = width;
         this.height = height;
     }
 
+    // 改写draw方法
     @Override
     public void draw(long timestamp, float[] transformMatrix) {
         if (isRecording) {
-            Log.d(TAG, "draw: ");
             Message msg = mMsgHandler.obtainMessage(MsgHandler.MSG_FRAME, timestamp);
             mMsgHandler.sendMessage(msg);
         }

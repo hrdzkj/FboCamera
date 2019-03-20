@@ -25,7 +25,7 @@ public class RenderDrawerGroups {
         this.mOriginalDrawer = new OriginalRenderDrawer();
         this.mWaterMarkDrawer = new WaterMarkRenderDrawer(context);
         this.mDisplayDrawer = new DisplayRenderDrawer();
-        this.mRecordDrawer = new RecordRenderDrawer(context);
+        this.mRecordDrawer = new RecordRenderDrawer();
         this.mFrameBuffer = 0;
         this.mInputTexture = 0;
     }

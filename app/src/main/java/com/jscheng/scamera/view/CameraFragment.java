@@ -68,10 +68,10 @@ public class CameraFragment extends Fragment implements CameraProgressButton.Lis
     private void initView(View contentView) {
         isFocusing = false;
         mPreviewSize = null;
-        mCameraView = contentView.findViewById(R.id.camera_view);
-        mProgressBtn = contentView.findViewById(R.id.progress_btn);
-        mFocusView = contentView.findViewById(R.id.focus_view);
-        mSwitchView = contentView.findViewById(R.id.switch_view);
+        mCameraView = (CameraGLSurfaceView)contentView.findViewById(R.id.camera_view);
+        mProgressBtn = (CameraProgressButton)contentView.findViewById(R.id.progress_btn);
+        mFocusView = (CameraFocusView)contentView.findViewById(R.id.focus_view);
+        mSwitchView = (CameraSwitchView)contentView.findViewById(R.id.switch_view);
 
         mCameraSensor = new CameraSensor(getContext());
         mCameraSensor.setCameraSensorListener(this);
