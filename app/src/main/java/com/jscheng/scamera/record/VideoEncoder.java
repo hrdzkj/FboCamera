@@ -41,7 +41,7 @@ public class VideoEncoder {
 
         mEncoder = MediaCodec.createEncoderByType(MediaFormat.MIMETYPE_VIDEO_AVC);
         mEncoder.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
-        mInputSurface = mEncoder.createInputSurface();
+        mInputSurface = mEncoder.createInputSurface();//创建一个目的surface来存放输入数据
         mEncoder.start();
         mMuxer = new MediaMuxer(outputFile.toString(), MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
 
@@ -75,8 +75,9 @@ public class VideoEncoder {
         }
 
         while (true) {
+
             int encoderStatus = mEncoder.dequeueOutputBuffer(mBufferInfo, TIMEOUT_USEC);
-            if (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) {
+            if (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) { // try agin later 稍后再尝试
                 Log.d(TAG, "MediaCodec.INFO_TRY_AGAIN_LATER");
                 // no output available yet
                 if (!endOfStream) {
@@ -84,7 +85,7 @@ public class VideoEncoder {
                 } else {
                     Log.d(TAG, "no output available, spinning to await EOS");
                 }
-            } else if (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
+            } else if (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) { //输出格式发生改变
                 Log.d(TAG, "MediaCodec.INFO_OUTPUT_FORMAT_CHANGED");
                 if (mMuxerStarted) {
                     throw new RuntimeException("format changed twice");
@@ -98,7 +99,8 @@ public class VideoEncoder {
             } else if (encoderStatus < 0) {
                 Log.d(TAG, "unexpected result from encoder.dequeueOutputBuffer: " + encoderStatus);
             } else {
-                ByteBuffer encodedData = mEncoder.getOutputBuffer(encoderStatus);
+                ByteBuffer encodedData = mEncoder.getOutputBuffer(encoderStatus); //获取编解码之后的数据输出流队列
+
                 if (encodedData == null) {
                     throw new RuntimeException("encoderOutputBuffer " + encoderStatus + " was null");
                 }
@@ -118,7 +120,8 @@ public class VideoEncoder {
                 } else {
                     Log.d(TAG, "drainEncoder mBufferInfo: " + mBufferInfo.size);
                 }
-                mEncoder.releaseOutputBuffer(encoderStatus, false);
+
+                mEncoder.releaseOutputBuffer(encoderStatus, false); //处理完成，释放ByteBuffer数据
                 if ((mBufferInfo.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
                     if (!endOfStream) {
                         Log.w(TAG, "reached end of stream unexpectedly");

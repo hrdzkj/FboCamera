@@ -84,6 +84,7 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
 
     @Override
     public void draw(long timestamp, float[] transformMatrix) {
+        //  如果没有在绘制的话，什么也不做。
         if (isRecording) {
             Log.d(TAG, "draw: ");
             Message msg = mMsgHandler.obtainMessage(MsgHandler.MSG_FRAME, timestamp);
@@ -101,8 +102,8 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
     private class MsgHandler extends Handler {
         public static final int MSG_START_RECORD = 1;
         public static final int MSG_STOP_RECORD = 2;
-        //public static final int MSG_UPDATE_CONTEXT = 3;
-        //public static final int MSG_UPDATE_SIZE = 4;
+        public static final int MSG_UPDATE_CONTEXT = 3;
+        public static final int MSG_UPDATE_SIZE = 4;
         public static final int MSG_FRAME = 5;
         public static final int MSG_QUIT = 6;
 
@@ -119,7 +120,7 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
                 case MSG_STOP_RECORD: //停止录制
                     stopVideoEncoder();
                     break;
-                    /*
+
                 case MSG_UPDATE_CONTEXT:
                     updateEglContext((EGLContext) msg.obj);
                     break;
@@ -127,7 +128,7 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
                 case MSG_UPDATE_SIZE:
                     updateChangedSize(msg.arg1, msg.arg2);
                     break;
-                    */
+
                 case MSG_FRAME: // 有帧数据刷新
                     drawFrame((long)msg.obj);
                     break;
@@ -141,6 +142,7 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
         }
     }
 
+    // 准备视频编码器 getInputSurface---->mEglSurface-->makeCurrent
     private void prepareVideoEncoder(EGLContext context, int width, int height) {
         try {
             mEglHelper = new EGLHelper();
