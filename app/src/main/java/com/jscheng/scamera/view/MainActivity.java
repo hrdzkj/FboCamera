@@ -22,7 +22,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getGlesVersion();
         getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN, WindowManager.LayoutParams. FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
@@ -32,11 +31,5 @@ public class MainActivity extends BaseActivity {
         transaction.commit();
     }
 
-    private void getGlesVersion()
-    {
-        ActivityManager am =(ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        ConfigurationInfo info = am.getDeviceConfigurationInfo();
-        String glesVersion= info.getGlEsVersion();
-        Log.d("------->",glesVersion);
-    }
+
 }

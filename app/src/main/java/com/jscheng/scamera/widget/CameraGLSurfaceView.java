@@ -1,9 +1,12 @@
 package com.jscheng.scamera.widget;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.ConfigurationInfo;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.jscheng.scamera.render.CameraSurfaceRender;
 
@@ -16,6 +19,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements CameraSurfaceR
      */
     private CameraSurfaceRender mRender;
     private CameraGLSurfaceViewCallback mCallback;
+    private Context mContext;
 
     public CameraGLSurfaceView(Context context) {
         super(context, null);
@@ -23,12 +27,27 @@ public class CameraGLSurfaceView extends GLSurfaceView implements CameraSurfaceR
 
     public CameraGLSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext =context;
         init(context);
     }
 
+    private String getGlesVersion()
+    {
+        ActivityManager am =(ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        ConfigurationInfo info = am.getDeviceConfigurationInfo();
+        return info.getGlEsVersion();
+    }
 
     private void init(Context context) {
-        setEGLContextClientVersion(2);
+        String glesVersion = getGlesVersion();
+        //版本不对可能导致eglCreateContext 共享上下文错误
+        if (glesVersion.startsWith("4.")) {
+            setEGLContextClientVersion(4);
+        }else if (glesVersion.startsWith("3.")) {
+            setEGLContextClientVersion(3);
+        } else {
+            setEGLContextClientVersion(2);
+        }
         setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR);
         mRender = new CameraSurfaceRender(context);
         mRender.setCallback(this);

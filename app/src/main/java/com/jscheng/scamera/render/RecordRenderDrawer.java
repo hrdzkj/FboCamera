@@ -65,7 +65,6 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
     }
 
     public void startRecord() {
-        Log.d(TAG, "startRecord context : " + mEglContext.toString());
         Message msg = mMsgHandler.obtainMessage(MsgHandler.MSG_START_RECORD, width, height, mEglContext);
         mMsgHandler.sendMessage(msg);
         isRecording = true;
@@ -75,10 +74,6 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
         Log.d(TAG, "stopRecord");
         isRecording = false;
         mMsgHandler.sendMessage(mMsgHandler.obtainMessage(MsgHandler.MSG_STOP_RECORD));
-    }
-
-    public void quit() {
-        mMsgHandler.sendMessage(mMsgHandler.obtainMessage(MsgHandler.MSG_QUIT));
     }
 
     @Override
@@ -106,8 +101,8 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
     private class MsgHandler extends Handler {
         public static final int MSG_START_RECORD = 1;
         public static final int MSG_STOP_RECORD = 2;
-        public static final int MSG_UPDATE_CONTEXT = 3;
-        public static final int MSG_UPDATE_SIZE = 4;
+        //public static final int MSG_UPDATE_CONTEXT = 3;
+        //public static final int MSG_UPDATE_SIZE = 4;
         public static final int MSG_FRAME = 5;
         public static final int MSG_QUIT = 6;
 
@@ -118,22 +113,26 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case MSG_START_RECORD:
+                case MSG_START_RECORD: //开始录制
                     prepareVideoEncoder((EGLContext) msg.obj, msg.arg1, msg.arg2);
                     break;
-                case MSG_STOP_RECORD:
+                case MSG_STOP_RECORD: //停止录制
                     stopVideoEncoder();
                     break;
+                    /*
                 case MSG_UPDATE_CONTEXT:
                     updateEglContext((EGLContext) msg.obj);
                     break;
+
                 case MSG_UPDATE_SIZE:
                     updateChangedSize(msg.arg1, msg.arg2);
                     break;
-                case MSG_FRAME:
+                    */
+                case MSG_FRAME: // 有帧数据刷新
                     drawFrame((long)msg.obj);
                     break;
-                case MSG_QUIT:
+
+                case MSG_QUIT: //退出
                     quitLooper();
                     break;
                 default:

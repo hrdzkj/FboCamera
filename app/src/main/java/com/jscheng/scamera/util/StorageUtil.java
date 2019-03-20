@@ -27,7 +27,8 @@ public class StorageUtil {
     }
 
     public static String getVedioPath(boolean checkDirExist) {
-        String path = getSDPath() + "/" + getDirName() + "/video/";
+        //String path = getSDPath() + "/" + getDirName() + "/video/";
+        String path = getSDPath() + "/111/";
         checkDirExist(path);
         return path;
     }
