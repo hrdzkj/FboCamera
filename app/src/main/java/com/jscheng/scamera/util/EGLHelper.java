@@ -21,20 +21,14 @@ public class EGLHelper {
     private EGLConfig mEglConfig;
     private EGLContext mEglContext = EGL14.EGL_NO_CONTEXT;
 
-    /**
-     * 创建openGL环境
-     */
-    public void createGL() {
-        createGL(EGL14.EGL_NO_CONTEXT);
-    }
 
-    public void createGL(EGLContext mEglContext) {
+    public void createGL(EGLContext eglContext) {
         // 设置显示设备
         setDisplay(EGL14.EGL_DEFAULT_DISPLAY);
         // 设置属性
         setConfig();
         // 创建上下文
-        createContext(mEglContext);
+        createContext(eglContext);
     }
 
     /**
