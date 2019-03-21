@@ -69,7 +69,7 @@ public class WaterMarkRenderDrawer extends BaseRenderDrawer{
         GLES20.glVertexAttribPointer(afPosition, CoordsPerTextureCount, GLES20.GL_FLOAT, false, 0, 0);
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mMarkTextureId);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mMarkTextureId); //传入给片元着色器处理
         GLES20.glUniform1i(sTexture, 0);
         //绘制 GLES20.GL_TRIANGLE_STRIP:复用坐标
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, VertexCount);

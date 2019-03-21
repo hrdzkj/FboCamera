@@ -38,6 +38,12 @@ public class RenderDrawerGroups {
     public void bindFrameBuffer(int textureId) {
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, mFrameBuffer);
         GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0, GLES20.GL_TEXTURE_2D, textureId, 0);
+        /* 绑定到GL_FRAMEBUFFER目标后，接下来所有的读、写帧缓冲的操作都会影响到当前绑定的帧缓冲。
+        也可以把帧缓冲分开绑定到读或写目标上，分别使用GL_READ_FRAMEBUFFER或GL_DRAW_FRAMEBUFFER来做这件事。
+        如果绑定到了GL_READ_FRAMEBUFFER，就能执行所有读取操作，像glReadPixels这样的函数使用了；
+        绑定到GL_DRAW_FRAMEBUFFER上，就允许进行渲染、清空和其他的写入操作。
+        大多数时候不必分开用，通常把两个都绑定到GL_FRAMEBUFFER上就行。！
+         */
     }
 
     public void unBindFrameBuffer() {
@@ -73,7 +79,7 @@ public class RenderDrawerGroups {
 
     //外部纹理进行了bindFrameBuffer就是离屏渲染，没有bindFrameBuffer，渲染操作都是在默认的帧缓冲之上进行
     public void drawRender(BaseRenderDrawer drawer, boolean useFrameBuffer, long timestamp, float[] transformMatrix) {
-        if (useFrameBuffer) { //外部纹理绑定到FBO，之后的所有的OpenGL操作都会对当前所绑定的FBO造成影响。
+        if (useFrameBuffer) {
             bindFrameBuffer(drawer.getOutputTextureId());
         }
 
@@ -86,12 +92,13 @@ public class RenderDrawerGroups {
         }
     }
 
+    // 要理解这个过程，要结合管线来理解才行
     public void draw(long timestamp, float[] transformMatrix) {
         if (mInputTexture == 0 || mFrameBuffer == 0) {
             Log.e(TAG, "draw: mInputTexture or mFramebuffer or list is zero");
             return;
         }
-        // 执行OriginalRenderDrawer渲染，通过FBO就自然就渲染到了DisplayRenderDrawer的纹理(共享外部纹理)上??? 如何理解
+        // 执行OriginalRenderDrawer渲染，通过FBO就自然就渲染到了DisplayRenderDrawer的纹理上
 
          //mOriginalDrawer/mWaterMarkDrawer 将绑定到FBO中，最后转换成mOriginalDrawer中的Sample2D纹理
          //mDisplayDrawer/mRecordDrawer 不绑定FBO，直接绘制到屏幕上
