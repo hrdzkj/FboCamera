@@ -106,7 +106,18 @@ public class EGLHelper {
         return EGL14.eglCreatePbufferSurface(mEglDisplay, config, new int[]{EGL14.EGL_WIDTH, width, EGL14.EGL_HEIGHT, height, EGL14.EGL_NONE}, 0);
     }
 
+    //
     public boolean makeCurrent(EGLSurface draw, EGLSurface read, EGLContext context) {
+        /**
+         * eglMakeCurrent把context绑定到当前的渲染线程以及draw和read指定的Surface。
+         * draw用于数据回读(glReadPixels、glCopyTexImage2D和glCopyTexSubImage2D)之外的所有GL操作。
+         * 回读操作作用于read指定的Surface上的帧缓冲(frame buffer)。
+         *
+         * 因此，当我们在线程T上调用GL 指令，OpenGL ES 会查询T线程绑定是哪个Context C，
+         * 进而查询是哪个Surface draw和哪个Surface read绑定到了这个Context C上。
+         *
+         * https://juejin.im/post/58dca46b61ff4b006b03bd57
+         */
         if (!EGL14.eglMakeCurrent(mEglDisplay, draw, read, context)) {
             Log.d(TAG, "makeCurrent" + EGL14.eglGetError());
             return false;
@@ -115,7 +126,7 @@ public class EGLHelper {
     }
 
     public boolean makeCurrent(EGLSurface surface, EGLContext context) {
-        return makeCurrent(surface, surface, context);
+        return makeCurrent(surface, surface, context); // 从这里体现共享surface????
     }
 
     public boolean makeCurrent(EGLSurface surface) {

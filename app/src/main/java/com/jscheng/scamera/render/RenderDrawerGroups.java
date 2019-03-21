@@ -41,7 +41,7 @@ public class RenderDrawerGroups {
     }
 
     public void unBindFrameBuffer() {
-        //ID号为0表示缺省帧缓存，即默认的window提供的帧缓存
+        //ID号为0表示缺省帧缓存，即默认的window提供的帧缓存（猜测也是线程想过的吧）
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
     }
 
@@ -86,7 +86,6 @@ public class RenderDrawerGroups {
         }
     }
 
-    private boolean IsSendStartRecordCommon=false; //是否发送了开始录制命名
     public void draw(long timestamp, float[] transformMatrix) {
         if (mInputTexture == 0 || mFrameBuffer == 0) {
             Log.e(TAG, "draw: mInputTexture or mFramebuffer or list is zero");

@@ -194,6 +194,7 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
 
     // ？？ 帧数据是怎么到这个线程来的呢？onDraw时候渲染这个mOutputTextureId
     private void drawFrame(long timeStamp) {
+        //指定显示器，渲染的Surface,会读数据的Surface（这两个Surface是由Medicode mEncoder创建的）,EGL上下文
         mEglHelper.makeCurrent(mEglSurface);// 因为在其他线程执行，所以要函设定OpenGL当前渲染环境(线程相关)
 
         onDraw(); //https://www.bigflake.com/mediacodec/EncodeAndMuxTest.java.txt 也没有换。根据不写黑屏，我认为要换
@@ -203,7 +204,18 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
         mEglHelper.setPresentationTime(mEglSurface, timeStamp);//设置显示时间戳pts
 
         //通过这种方法强制执行glFlush，交换缓冲，保证供另一帧，而因为输入缓冲满导致阻塞
-        mEglHelper.swapBuffers(mEglSurface);//
+        mEglHelper.swapBuffers(mEglSurface);
+        /**
+         * glFlush和glFinish被称为显式同步操作。某些情况下也会发生隐式同步操作。调用eglSwapBuffers时，就可能发生这种情况。
+         * 由于这个操作是由驱动直接执行的，此时GPU 可能把所有待执行的glDraw*绘制指令，作用在一个不符合预期的surface缓冲上(如果之前前端缓冲和后端缓冲已经交换过了)。
+         * 为了防止这种情形，在交换缓冲前，驱动必须阻塞当前线程，等待所有的影响当前surface的glDraw*指令执行完毕。
+         * 当然，使用双重缓冲的surfaces时，不需要主动调用glFlush或glFinish：因为eglSwapBuffers进行了隐式同步操作。
+         * 但在使用单缓冲surfaces(如上文提到的第二个线程里)的情况，需要及时调用glFlush，
+         * 例如：在线程退出前，必须调用glFlush，否则，GL 指令可能从未发送到GPU。
+         *
+         * 作者：Geedio
+         * 链接：https://juejin.im/post/58dca46b61ff4b006b03bd57
+         */
     }
 
     private void updateChangedSize(int width, int height) {
