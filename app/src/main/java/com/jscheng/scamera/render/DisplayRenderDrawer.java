@@ -81,7 +81,7 @@ public class DisplayRenderDrawer extends BaseRenderDrawer {
     protected String getFragmentSource() {
         final String source = "precision mediump float;\n" +
                 "varying vec2 v_texPo;\n" + //纹理位置  接收于vertex_shader
-                "uniform sampler2D s_Texture;\n" + // 并不是简单的0，而是sampler2D
+                "uniform sampler2D s_Texture;\n" +
                 "void main() {\n" +
                 "   vec4 tc = texture2D(s_Texture, v_texPo);\n" +
                 "   float color = tc.r * 0.3 + tc.g * 0.59 + tc.b * 0.11;\n" +

@@ -47,7 +47,7 @@ public class RenderDrawerGroups {
     }
 
     public void unBindFrameBuffer() {
-        //ID号为0表示缺省帧缓存，即默认的window提供的帧缓存
+        //ID号为0表示缺省帧缓存，即默认的window提供的帧缓存（猜测也是线程想过的吧）
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
     }
 
@@ -79,7 +79,7 @@ public class RenderDrawerGroups {
 
     //外部纹理进行了bindFrameBuffer就是离屏渲染，没有bindFrameBuffer，渲染操作都是在默认的帧缓冲之上进行
     public void drawRender(BaseRenderDrawer drawer, boolean useFrameBuffer, long timestamp, float[] transformMatrix) {
-        if (useFrameBuffer) {
+        if (useFrameBuffer) { //外部纹理绑定到FBO，之后的所有的OpenGL操作都会对当前所绑定的FBO造成影响。
             bindFrameBuffer(drawer.getOutputTextureId());
         }
 
@@ -98,11 +98,13 @@ public class RenderDrawerGroups {
             Log.e(TAG, "draw: mInputTexture or mFramebuffer or list is zero");
             return;
         }
-        // 执行OriginalRenderDrawer渲染，通过FBO就自然就渲染到了DisplayRenderDrawer的纹理上
 
+
+        // 执行OriginalRenderDrawer渲染，通过FBO就自然就渲染到了DisplayRenderDrawer的纹理(共享外部纹理)上??? 如何理解
          //mOriginalDrawer/mWaterMarkDrawer 将绑定到FBO中，最后转换成mOriginalDrawer中的Sample2D纹理
          //mDisplayDrawer/mRecordDrawer 不绑定FBO，直接绘制到屏幕上
         // 绘制顺序会控制着 水印绘制哪一层
+
         drawRender(mOriginalDrawer, true, timestamp, transformMatrix);  // 输出纹理＝Original
         //drawRender(mDisplayDrawer, false,  timestamp, transformMatrix); //显示原始数据
         drawRender(mWaterMarkDrawer, true, timestamp, transformMatrix); //输出纹理＝Original+WaterMark
