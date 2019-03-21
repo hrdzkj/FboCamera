@@ -17,7 +17,7 @@ import static com.jscheng.scamera.util.LogUtil.TAG;
  * Created By Chengjunsen on 2018/9/20
  */
 public class EGLHelper {
-    private EGLDisplay mEglDisplay = EGL14.EGL_NO_DISPLAY;
+    private EGLDisplay mEglDisplay = EGL14.EGL_NO_DISPLAY; //EGLDisplay 是一个关联系统物理屏幕的通用数据类型
     private EGLConfig mEglConfig;
     private EGLContext mEglContext = EGL14.EGL_NO_CONTEXT;
 
@@ -36,6 +36,7 @@ public class EGLHelper {
      */
     public void setDisplay(int key) {
         // 获取显示默认设备
+
         mEglDisplay = EGL14.eglGetDisplay(key);
         // 初始化
         int version[] = new int[2];
@@ -130,6 +131,7 @@ public class EGLHelper {
     }
 
     public boolean swapBuffers(EGLSurface surface) {
+        //eglSwapBuffers performs an implicit flush operation on the context
         if (!EGL14.eglSwapBuffers(mEglDisplay, surface)) {
             Log.d(TAG, "swapBuffers" + EGL14.eglGetError());
             return false;

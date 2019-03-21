@@ -86,21 +86,23 @@ public class RenderDrawerGroups {
         }
     }
 
+    private boolean IsSendStartRecordCommon=false; //是否发送了开始录制命名
     public void draw(long timestamp, float[] transformMatrix) {
         if (mInputTexture == 0 || mFrameBuffer == 0) {
             Log.e(TAG, "draw: mInputTexture or mFramebuffer or list is zero");
             return;
         }
-        // 执行OriginalRenderDrawer渲染，通过FBO就自然就渲染到了DisplayRenderDrawer的纹理(共享外部纹理)上??? 如何理解
 
+
+        // 执行OriginalRenderDrawer渲染，通过FBO就自然就渲染到了DisplayRenderDrawer的纹理(共享外部纹理)上??? 如何理解
          //mOriginalDrawer/mWaterMarkDrawer 将绑定到FBO中，最后转换成mOriginalDrawer中的Sample2D纹理
          //mDisplayDrawer/mRecordDrawer 不绑定FBO，直接绘制到屏幕上
         // 绘制顺序会控制着 水印绘制哪一层
 
         drawRender(mOriginalDrawer, true, timestamp, transformMatrix);  // 输出纹理＝Original
-        drawRender(mDisplayDrawer, false,  timestamp, transformMatrix); //显示原始数据
+        //drawRender(mDisplayDrawer, false,  timestamp, transformMatrix); //显示原始数据
         drawRender(mWaterMarkDrawer, true, timestamp, transformMatrix); //输出纹理＝Original+WaterMark
-        drawRender(mRecordDrawer, false, timestamp, transformMatrix);//????
+        drawRender(mRecordDrawer, false, timestamp, transformMatrix);//???? //直发送一次绘制命令，会只有一个图片
 
 
         /*
@@ -117,6 +119,7 @@ public class RenderDrawerGroups {
        */
 
     }
+
 
     public void startRecord() {
         mRecordDrawer.startRecord();

@@ -67,6 +67,10 @@ public class VideoEncoder {
         }
     }
 
+/*
+ * 将编码好的音视频从buffer中拿出来（通过dequeueOutputBuffer()），然后交由MediaMuxer进行混合（通过writeSampleData()
+ * endOfStream是代表是否编码结束的终结符，
+ */
     public void drainEncoder(boolean endOfStream) {
         final int TIMEOUT_USEC = 10000;
         if (endOfStream) {
@@ -85,14 +89,13 @@ public class VideoEncoder {
                 } else {
                     Log.d(TAG, "no output available, spinning to await EOS");
                 }
+
+                //格式发生变化。这个第一次configure之后也会调用一次。在这里进行muxer的初始化
             } else if (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) { //输出格式发生改变
-                Log.d(TAG, "MediaCodec.INFO_OUTPUT_FORMAT_CHANGED");
                 if (mMuxerStarted) {
                     throw new RuntimeException("format changed twice");
                 }
                 MediaFormat newFormat = mEncoder.getOutputFormat();
-                Log.d(TAG, "encoder output format changed: " + newFormat);
-
                 mTrackIndex = mMuxer.addTrack(newFormat);
                 mMuxer.start();
                 mMuxerStarted = true;
@@ -122,7 +125,7 @@ public class VideoEncoder {
                 }
 
                 mEncoder.releaseOutputBuffer(encoderStatus, false); //处理完成，释放ByteBuffer数据
-                if ((mBufferInfo.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
+                if ((mBufferInfo.flags & MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) { //录制完了当前缓冲的数据
                     if (!endOfStream) {
                         Log.w(TAG, "reached end of stream unexpectedly");
                     } else {
