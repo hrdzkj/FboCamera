@@ -43,10 +43,8 @@ public class OriginalRenderDrawer extends BaseRenderDrawer {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mVertexBufferId);//传入顶点坐标
         GLES20.glVertexAttribPointer(av_Position, CoordsPerVertexCount, GLES20.GL_FLOAT, false, 0, 0);
         if (CameraUtil.isBackCamera()) { //传入纹理坐标
-            Log.v("---->","isBackCamera");
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mBackTextureBufferId);
         } else {
-            Log.v("---->","isFrontCamera");
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, mFrontTextureBufferId);
         }
         GLES20.glVertexAttribPointer(af_Position, CoordsPerTextureCount, GLES20.GL_FLOAT, false, 0, 0);

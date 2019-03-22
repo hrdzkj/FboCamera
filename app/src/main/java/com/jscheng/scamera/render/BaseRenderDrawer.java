@@ -23,25 +23,26 @@ public abstract class BaseRenderDrawer {
 
     protected int mProgram;
 
-    //顶点坐标 Buffer
+    //顶点坐标 Buffer:反Z型
     private FloatBuffer mVertexBuffer;
     protected int mVertexBufferId;
 
-    //纹理坐标 Buffer
+    //纹理坐标(前摄像头）Buffer
     private FloatBuffer mFrontTextureBuffer;
     protected int mFrontTextureBufferId;
 
-    //纹理坐标 Buffer
+    //纹理坐标(后摄像头）Buffer：|/|
     private FloatBuffer mBackTextureBuffer;
     protected int mBackTextureBufferId;
 
-    //同时用于DisplayRenderDrawer/RecordRenderDawer 是什么坐标呢?????
+    //绘制水印和显示时候都用到的，Z型
     private FloatBuffer mDisplayTextureBuffer;
     protected int mDisplayTextureBufferId;
 
-    //VBO定点数据,用于画水印
+    //VBO定点数据,用于画水印：型装同顶点坐标
     private FloatBuffer mFrameTextureBuffer;
     protected int mFrameTextureBufferId;
+
 
     protected float vertexData[] = {
             -1f, -1f,// 左下角

@@ -53,6 +53,7 @@ public class WaterMarkRenderDrawer extends BaseRenderDrawer{
         viewPort(40, 75, mBitmap.getWidth() * 2, mBitmap.getHeight() * 2);
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
         GLES20.glEnable(GLES20.GL_BLEND);
+        //混合:参数是源因子和目标因子，GL_SRC_COLOR（把源颜色的四个分量分别作为因子的四个分量,GL_DST_ALPHA：表示使用目标颜色的alpha值来作为因子
         GLES20.glBlendFunc(GLES20.GL_SRC_COLOR, GLES20.GL_DST_ALPHA);
         onDraw();
         GLES20.glDisable(GLES20.GL_BLEND);
