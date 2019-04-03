@@ -105,13 +105,13 @@ public class RenderDrawerGroups {
          //mDisplayDrawer/mRecordDrawer 不绑定FBO，直接绘制到屏幕上
         // 绘制顺序会控制着 水印绘制哪一层
 
-        drawRender(mOriginalDrawer, false, timestamp, transformMatrix);
-        /*
+        //drawRender(mOriginalDrawer, false, timestamp, transformMatrix);
+
         drawRender(mOriginalDrawer, true, timestamp, transformMatrix);  // 输出纹理＝Original
         drawRender(mWaterMarkDrawer, true, timestamp, transformMatrix); //输出纹理＝Original+WaterMark
         drawRender(mDisplayDrawer, false,  timestamp, transformMatrix); //显示输出纹理
         drawRender(mRecordDrawer, false, timestamp, transformMatrix);//????
-       */
+
 
         /*
         顺序：1.mOriginalDrawer:绘制的数据基础是mInputTexture，渲染到FBO(FBO<--mOutputTexture,mOutputTexture=mInputTexture+ondraw)

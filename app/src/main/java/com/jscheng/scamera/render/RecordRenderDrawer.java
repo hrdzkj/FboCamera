@@ -27,6 +27,8 @@ import static com.jscheng.scamera.util.LogUtil.TAG;
   *   输出纹理/输入纹理同一个，外部传入的。
  */
 public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
+    private SimpleDateFormat mFormatter = new SimpleDateFormat("HHmmss");
+
     // 绘制的纹理 ID
     private int mTextureId;
     private VideoEncoder mVideoEncoder;
@@ -58,7 +60,6 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
     @Override
     public void setInputTextureId(int textureId) {
         this.mTextureId = textureId;
-        Log.d(TAG, "setInputTextureId: " + textureId);
     }
 
     @Override
@@ -78,7 +79,6 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
     }
 
     public void stopRecord() {
-        Log.d(TAG, "stopRecord");
         isRecording = false;
         mMsgHandler.sendMessage(mMsgHandler.obtainMessage(MsgHandler.MSG_STOP_RECORD));
     }
@@ -114,10 +114,6 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
         public static final int MSG_FRAME = 5;
         public static final int MSG_QUIT = 6;
 
-        public MsgHandler() {
-
-        }
-
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -136,7 +132,7 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
                     updateChangedSize(msg.arg1, msg.arg2);
                     break;
 
-                case MSG_FRAME: // 有帧数据刷新
+                case MSG_FRAME: //有帧数据刷新
                     drawFrame((long)msg.obj);
                     break;
 
@@ -149,7 +145,8 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
         }
     }
 
-    private SimpleDateFormat mFormatter = new SimpleDateFormat("HHmmss");
+
+
     // 准备视频编码器 getInputSurface---->mEglSurface-->makeCurrent
     private void prepareVideoEncoder(EGLContext context, int width, int height) {
         String fileName = mFormatter.format(new Date())+".mp4";
@@ -192,7 +189,7 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
         }
     }
 
-    // ？？ 帧数据是怎么到这个线程来的呢？onDraw时候渲染这个mOutputTextureId
+
     private void drawFrame(long timeStamp) {
         //指定显示器，渲染的Surface,会读数据的Surface（这两个Surface是由Medicode mEncoder创建的）,EGL上下文
         mEglHelper.makeCurrent(mEglSurface);// 因为在其他线程执行，所以要函设定OpenGL当前渲染环境(线程相关)
@@ -233,10 +230,6 @@ public class RecordRenderDrawer extends BaseRenderDrawer implements Runnable{
         av_Position = GLES20.glGetAttribLocation(mProgram, "av_Position");
         af_Position = GLES20.glGetAttribLocation(mProgram, "af_Position");
         s_Texture = GLES20.glGetUniformLocation(mProgram, "s_Texture");
-        Log.d(TAG, "onCreated: av_Position " + av_Position);
-        Log.d(TAG, "onCreated: af_Position " + af_Position);
-        Log.d(TAG, "onCreated: s_Texture " + s_Texture);
-        Log.e(TAG, "onCreated: error " + GLES20.glGetError());
     }
 
     @Override
